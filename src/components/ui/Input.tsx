@@ -7,7 +7,7 @@ function Input({ className, errorMessage, ...props }: InputProps) {
     <>
       <input
         {...props}
-        className={`p-2 text-lg bg-slate-500 rounded-lg w-full text-slate-100 font-medium focus:bg-slate-800 placeholder:text-slate-400 ${className} ${
+        className={`p-2 text-lg bg-slate-500 rounded-lg text-slate-100 font-medium focus:bg-slate-800 placeholder:text-slate-400 ${className} ${
           errorMessage && "outline-red-400"
         }`}
       />

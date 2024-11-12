@@ -2,14 +2,13 @@
 
 import { useState, MouseEvent, ChangeEvent } from "react";
 import { useRouter } from "next/navigation";
+import axios from "axios";
+import toast from "react-hot-toast";
 
-import { Steps } from "@/types/enums";
 import Welcome from "@/components/auth/Welcome";
 import CreatePassword from "@/components/auth/CreatePassword";
 import RecoveryPhase from "@/components/auth/RecoveryPhase";
 import AllDone from "@/components/auth/AllDone";
-import { encryptText } from "@/utils/helpers";
-import axios from "axios";
 
 function RegisterPage() {
   const router = useRouter();
@@ -21,14 +20,15 @@ function RegisterPage() {
   async function onClick(step: number, e: MouseEvent<HTMLButtonElement>) {
     if (step === 3) return router.replace("/");
     if (step === 1) {
-      if (!password || !confirmPassword) return;
-
-      console.log("password", password);
+      if (!password || !confirmPassword)
+        return toast.error("Please fill all fields");
 
       const { data } = await axios.post("/api/auth/encrypt", {
         text: password,
       });
-      console.log(data, "data");
+      // save data to cookies
+      document.cookie = `token=${data.payload.encryptedData}`;
+      document.cookie = `iv=${data.payload.iv}`;
     }
     setStep((prev) => prev + 1);
   }
@@ -67,8 +67,6 @@ function RegisterPage() {
     />,
     <AllDone onClick={onClick} />,
   ];
-
-  console.log(step);
 
   const currentComponent = steps[step];
 

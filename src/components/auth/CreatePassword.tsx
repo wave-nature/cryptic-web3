@@ -1,6 +1,8 @@
 "use client";
 
-import { MouseEvent, ChangeEvent } from "react";
+import { MouseEvent, ChangeEvent, useState } from "react";
+import { toast } from "react-hot-toast";
+
 import Button from "../ui/Button";
 import Input from "../ui/Input";
 
@@ -19,6 +21,7 @@ function CreatePassword({
   onPasswordChange,
   onConfirmPasswordChange,
 }: CreatePasswordProps) {
+  const [isChecked, setIsChecked] = useState(false);
   return (
     <>
       <div className="text-center space-y-3 h-full w-full flex flex-col justify-center">
@@ -32,6 +35,7 @@ function CreatePassword({
             <Input
               type="password"
               placeholder="Password"
+              className="w-full"
               value={password}
               onChange={onPasswordChange}
               errorMessage={
@@ -41,6 +45,7 @@ function CreatePassword({
             <Input
               type="password"
               placeholder="Confirm Password"
+              className="w-full"
               value={confirmPassword}
               onChange={onConfirmPasswordChange}
               errorMessage={
@@ -52,15 +57,24 @@ function CreatePassword({
           </div>
         </div>
       </div>
-      <div className="flex items-center mb-4 w-full">
-        <Input type="checkbox" className="h-4 w-16 accent-indigo-500" />
-        <p className="text-white w-full">I agree to the Terms of Service</p>
+      <div className="flex items-center justify-center gap-2 mb-4 w-full">
+        <Input
+          type="checkbox"
+          className="h-4 w-4 accent-indigo-500"
+          value={isChecked ? "1" : "0"}
+          onChange={() => setIsChecked(!isChecked)}
+        />
+        <p className="text-white">I agree to the Terms of Service</p>
       </div>
       <div className="w-full space-y-3">
         <Button
           text="Continue"
           variant={"primary"}
-          onClick={onClick.bind(null, 1)}
+          onClick={(e) => {
+            if (!isChecked)
+              return toast.error("Please agree to the terms of service");
+            onClick(1, e);
+          }}
         />
       </div>
     </>

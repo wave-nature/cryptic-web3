@@ -1,7 +1,8 @@
 "use client";
+import { MouseEvent, useState } from "react";
+import { toast } from "react-hot-toast";
 
 import Button from "../ui/Button";
-import { MouseEvent } from "react";
 import Input from "../ui/Input";
 
 export interface RecoveryPhraseProps {
@@ -13,6 +14,8 @@ export interface RecoveryPhraseProps {
 const readOnly = true;
 
 function RecoveryPhrase({ onClick, recoveryPhrase }: RecoveryPhraseProps) {
+  const [isChecked, setIsChecked] = useState(false);
+
   return (
     <>
       <div className="text-center space-y-3 flex flex-col justify-center">
@@ -30,23 +33,27 @@ function RecoveryPhrase({ onClick, recoveryPhrase }: RecoveryPhraseProps) {
               <Input
                 value={recoveryPhrase[0]}
                 onChange={(e) => {}}
-                className="ps-6"
+                className="ps-6 w-full"
                 readOnly={readOnly}
               />
             </div>
           ))}
       </div>
 
-      <div className="flex items-center mb-4 w-full mt-16">
-        <Input type="checkbox" className="w-8 accent-indigo-500" />
-        <p className="text-white w-full">I saved my secret phrase</p>
+      <div className="flex items-center justify-center gap-2 mb-4 w-full">
+        <Input type="checkbox" className="w-4 h-4 accent-indigo-500" />
+        <p className="text-white">I saved my secret phrase</p>
       </div>
 
       <div className="w-full space-y-3">
         <Button
           text="Continue"
           variant={"primary"}
-          onClick={onClick.bind(null, 2)}
+          onClick={(e) => {
+            if (!isChecked)
+              return toast.error("Please agree to the terms of service");
+            onClick(1, e);
+          }}
         />
       </div>
     </>
