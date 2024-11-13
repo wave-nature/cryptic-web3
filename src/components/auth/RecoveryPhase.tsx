@@ -41,7 +41,14 @@ function RecoveryPhrase({ onClick, recoveryPhrase }: RecoveryPhraseProps) {
       </div>
 
       <div className="flex items-center justify-center gap-2 mb-4 w-full">
-        <Input type="checkbox" className="w-4 h-4 accent-indigo-500" />
+        <Input
+          type="checkbox"
+          className="w-4 h-4 accent-indigo-500"
+          value={isChecked ? "1" : "0"}
+          onChange={(e) => {
+            setIsChecked(!isChecked);
+          }}
+        />
         <p className="text-white">I saved my secret phrase</p>
       </div>
 

@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import "./globals.css";
 import { Toaster } from "react-hot-toast";
+import AuthProvider from "@/providers/AuthProvider";
 
 export const metadata: Metadata = {
   title: "Create Next App",
@@ -14,9 +15,9 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body className=" bg-blue-200 h-screen flex items-center justify-center">
+      <body className=" bg-green-100 h-screen flex items-center justify-center">
         <main className=" bg-gray-800 h-4/5 w-[30%] rounded-xl px-8 py-8">
-          {children}
+          <AuthProvider>{children}</AuthProvider>
         </main>
         <Toaster />
       </body>

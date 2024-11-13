@@ -32,7 +32,6 @@ function encrypt(text: string) {
 export async function POST(request: NextRequest) {
   const body = await request.json();
   const { text } = body;
-  console.log("text", text);
 
   const encrypted = encrypt(text);
 
@@ -40,8 +39,8 @@ export async function POST(request: NextRequest) {
   const cookieStore = await cookies();
   cookieStore.set("token", encrypted.encryptedData);
   cookieStore.set("iv", encrypted.iv);
-
-  console.log(cookieStore.get("token"));
+  cookieStore.set("new_user", "true");
+  cookieStore.set("logged_in", "true");
 
   return Response.json({
     payload: encrypted,

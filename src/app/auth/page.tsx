@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, MouseEvent, ChangeEvent } from "react";
+import { useState, MouseEvent, ChangeEvent, useLayoutEffect } from "react";
 import { useRouter } from "next/navigation";
 import axios from "axios";
 import toast from "react-hot-toast";
@@ -9,6 +9,7 @@ import Welcome from "@/components/auth/Welcome";
 import CreatePassword from "@/components/auth/CreatePassword";
 import RecoveryPhase from "@/components/auth/RecoveryPhase";
 import AllDone from "@/components/auth/AllDone";
+import { getCookie } from "@/utils/helpers";
 
 function RegisterPage() {
   const router = useRouter();
@@ -23,7 +24,7 @@ function RegisterPage() {
       if (!password || !confirmPassword)
         return toast.error("Please fill all fields");
 
-      const { data } = await axios.post("/api/auth/encrypt", {
+      const { data } = await axios.post("/api/auth/register", {
         text: password,
       });
       // save data to cookies
